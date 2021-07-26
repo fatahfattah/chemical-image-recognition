@@ -8,7 +8,7 @@ Currently tested dataset type is called "Patent Grant Data/XML" on the USPTO sit
 I.e. https://bulkdata.uspto.gov/data/patent/grant/redbook/2021/
 
 INPUT:
-    -path = path to USPTO directory
+    -path: path to USPTO directory
 OUTPUT:
     Will generate a new folder called 'dataset', contained chemical or nonchemical images
 
@@ -19,7 +19,11 @@ Can be ran as: 'python -m uspto_extractor -path=path/to/dir'
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-path", help="Provide the path to the extracted USPTO directory", required=True)
-    uspto_data_path = parser.parse_args()
+    parser.add_argument("-destpath", help="Provide a destination path for the dataset", required=False)
+    parsed_args = parser.parse_args()
+
+    uspto_data_path = parsed_args.path
+    destination_path = parsed_args.destpath if parsed_args.destpath else uspto_data_path
 
     pattern = "*.TIF"
     zip_pattern = "*.ZIP"
@@ -49,11 +53,11 @@ if __name__ == "__main__":
                                     dataset_suffix = 'chemical'
 
                                     # Make chemical or nonchemical directory is not exist
-                                    if not os.path.isdir(os.path.join(uspto_data_path, 'dataset', dataset_suffix)):
-                                        os.makedirs(os.path.join(uspto_data_path, 'dataset', dataset_suffix))
+                                    if not os.path.isdir(os.path.join(destination_path, 'dataset', dataset_suffix)):
+                                        os.makedirs(os.path.join(destination_path, 'dataset', dataset_suffix))
                                         
                                     print(os.path.join(sub_path, sub_name), 'TO', dataset_suffix)
-                                    shutil.copyfile(os.path.join(sub_path, sub_name), os.path.join(uspto_data_path, 'dataset', dataset_suffix, sub_name))
+                                    shutil.copyfile(os.path.join(sub_path, sub_name), os.path.join(destination_path, 'dataset', dataset_suffix, sub_name))
 
                     shutil.rmtree(unzipped_path)
                     print("\tRemoved zip:", name[:-4])
