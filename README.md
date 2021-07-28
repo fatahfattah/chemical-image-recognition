@@ -1,5 +1,8 @@
 # chemical-image-recognition
-This repo contains code for experimentation on a chemical image recognition task.
+This repo contains an effort to explore possibilities of classifying chemical images in patent documents. It contains a document (PDF) describing our efforts and approach, together with all code to reproduce the results and train your own model.
+
+#Code
+The code is fairly straight forward and is divided into two main parts which are described below.
 
 ## data_curation
 Contains all code to create a labeled dataset from the USPTO.
